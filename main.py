@@ -6,11 +6,19 @@ import tkinter
 
 
 dates = []
+C = None
 
 def main():
 
     top = tkinter.Tk()
 
+    C = tkinter.Canvas(top, bg="gray", height=100, width=1200)
+    for a in range(1,24):
+        line = C.create_line(a*50,0,a*50,100)
+
+
+
+    C.pack(side = tkinter.BOTTOM)
 
     L1 = tkinter.Label(top, text="name")
     L1.pack( side = tkinter.LEFT)
@@ -28,32 +36,49 @@ def main():
     L4.pack( side = tkinter.LEFT)
     E4 = tkinter.Entry(top, bd =5)
     E4.pack(side = tkinter.LEFT)
-    L5 = tkinter.Label(top, text="eta-month")
+    L5 = tkinter.Label(top, text="end-month")
     L5.pack( side = tkinter.LEFT)
     E5 = tkinter.Entry(top, bd =5)
     E5.pack(side = tkinter.LEFT)
-    L6 = tkinter.Label(top, text="eta-day")
+    L6 = tkinter.Label(top, text="end-day")
     L6.pack( side = tkinter.LEFT)
     E6 = tkinter.Entry(top, bd =5)
     E6.pack(side = tkinter.LEFT)
-    L7 = tkinter.Label(top, text="hour")
+    L7 = tkinter.Label(top, text="end-hour")
     L7.pack( side = tkinter.LEFT)
     E7 = tkinter.Entry(top, bd =5)
     E7.pack(side = tkinter.LEFT)
-    L8 = tkinter.Label(top, text="minute")
+    L8 = tkinter.Label(top, text="end-minute")
     L8.pack( side = tkinter.LEFT)
     E8 = tkinter.Entry(top, bd =5)
     E8.pack(side = tkinter.LEFT)
 
-
     def addtask():
-        dates.append([E1.get(), datetime.timedelta(minutes=int(E2.get()),hours=int(E3.get())), datetime.datetime(int(E4.get()), int(E5.get()), int(E6.get()), int(E7.get()), int(E8.get()))])
+        dates.append([E1.get(), datetime.timedelta(minutes=int(E3.get()),hours=int(E2.get())), datetime.datetime(int(E4.get()), int(E5.get()), int(E6.get()), int(E7.get()), int(E8.get()))])
+        dates2 = min_time_wasted(dates)
+        for counter in dates2:
+            #if date.today() == counter[1]:
+                startinseconds = counter[1].hour * 60 *60 + counter[1].minute * 60 + counter[1].second
+                startx = startinseconds * 1200 / (24*60*60)
+                endx = startx + counter[3].seconds * 1200 / (24*60*60)
+                C.create_polygon(startx , 5, startx , 95, endx, 95, endx, 5)
+                print(counter[3].seconds)
 
     B = tkinter.Button(top, text = "Add Task", command = addtask)
     B.pack(side = tkinter.RIGHT)
 
-
-
+    # L9 = tkinter.Label(top, text="name")
+    # L9.pack( side = tkinter.LEFT)
+    # E9 = tkinter.Entry(top, bd =5)
+    # E9.pack(side = tkinter.LEFT)
+    # L10 = tkinter.Label(top, text="name")
+    # L10.pack( side = tkinter.LEFT)
+    # E10 = tkinter.Entry(top, bd =5)
+    # E10.pack(side = tkinter.LEFT)
+    # L11 = tkinter.Label(top, text="name")
+    # L11.pack( side = tkinter.LEFT)
+    # E11 = tkinter.Entry(top, bd =5)
+    # E11.pack(side = tkinter.LEFT)
 
     top.mainloop()
 
